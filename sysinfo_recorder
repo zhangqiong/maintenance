@@ -1,8 +1,16 @@
+use Log::Dispatch::File;
+use Log::Dispatch;
 while(){
-	open my $logfile,'>>','logfile'or
-	die "can't open logfile for append:$!\n";
-	@loginfo=`top -n 1`;
-	print $logfile "@loginfo";
-	close $logfile;
+	my $ld=Log::Dispatch->new;
+	$ld->add(
+	Log::Dispatch::File->new(
+				name=>'to_file',
+				filename=>'logfile',
+				min_level=>'info',
+				max_level=>'alert',
+				mode=>'append'
+				)
+	);
+	$ld->log(level=>'info',message=>`top -n 1`);
 	sleep(30);
 }
