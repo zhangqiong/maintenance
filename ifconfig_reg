@@ -1,0 +1,18 @@
+#ifconfig_reg
+@ifclines=`ifconfig`;#ifconfig命令的标准输出
+$l=@ifclines;
+
+for($i=0;$i<$l;$i+=9){
+	$_=@ifclines[$i];
+	if(~/(\S+) +(\S+)/){ 
+		$name=$1;#网卡名称
+	}
+	$_=@ifclines[$1+1];
+	if(~/addr:(\S+)/){
+		$ip=$1;#对应的ip
+	}
+	%rs;#存结果的hash
+	$rs{$name}=$ip;
+}
+print(%rs);
+return(%rs);#返回一个hash
