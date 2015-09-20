@@ -1,0 +1,8 @@
+while(){
+	open my $logfile,'>>','logfile'or
+	die "can't open logfile for append:$!\n";
+	@loginfo=`top -n 1`;
+	print $logfile "@loginfo";
+	close $logfile;
+	sleep(30);
+}
