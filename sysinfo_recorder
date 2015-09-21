@@ -11,6 +11,11 @@ while(){
 				mode=>'append'
 				)
 	);
-	$ld->log(level=>'info',message=>`top -n 1`);
+	@sysinfo=`top -n 1`;
+	$length=@sysinfo;
+	foreach(@sysinfo){
+		~ s/.(\(B).(\[m)|.(\[39;49)m|.(\[K)|.\[\dm|.\[\?\S+/ /g;
+		$ld->log(level=>'info',message=>$_);
+	}
 	sleep(30);
 }
